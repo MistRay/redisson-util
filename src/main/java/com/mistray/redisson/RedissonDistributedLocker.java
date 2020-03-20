@@ -1,5 +1,6 @@
 package com.mistray.redisson;
 
+import org.redisson.api.RFuture;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 
@@ -50,6 +51,18 @@ public class RedissonDistributedLocker implements DistributedLocker{
     public void unlock(RLock lock) {
         lock.unlock();
     }
+
+    @Override
+    public boolean tryLockAsync(String lockKey, TimeUnit unit, int waitTime, int leaseTime){
+        RLock lock = redissonClient.getLock(lockKey);
+        return lock.tryLockAsync(waitTime, leaseTime, unit, Thread.currentThread().getId()).isSuccess();
+    }
+
+    @Override
+    public RLock getLock(String lockKey) {
+        return redissonClient.getLock(lockKey);
+    }
+
 
     public void setRedissonClient(RedissonClient redissonClient) {
         this.redissonClient = redissonClient;

@@ -51,6 +51,7 @@ public class RedissonAutoConfiguration {
     @ConditionalOnProperty(name="redisson.address")
     RedissonClient redissonSingle() {
         Config config = new Config();
+        config.setLockWatchdogTimeout(60000);
         SingleServerConfig serverConfig = config.useSingleServer()
                 .setAddress(redissonProperties.getAddress())
                 .setTimeout(redissonProperties.getTimeout())

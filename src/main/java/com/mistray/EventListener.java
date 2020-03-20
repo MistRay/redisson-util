@@ -1,6 +1,9 @@
 package com.mistray;
 
 import com.mistray.redisson.RedissonLockUtil;
+import lombok.SneakyThrows;
+import org.redisson.api.RFuture;
+import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -21,17 +24,31 @@ public class EventListener implements ApplicationListener<ContextRefreshedEvent>
 
     @Autowired
     private RedissonClient redissonClient;
+
     /**
-     *
      * Handle an application event.
      *
      * @param event the event to respond to
      */
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        boolean tryLock = RedissonLockUtil.tryLock("1121122", TimeUnit.SECONDS, 2, 100);
-        if (tryLock){
-            System.out.println("111111222222");
-        }
+        new Thread(() -> {
+            RLock lock = RedissonLockUtil.getLock("1231214");
+            RFuture<Boolean> future = lock.tryLockAsync();
+            System.out.println(111111);
+            try {
+                Thread.sleep(40000);
+                System.out.println(future.isSuccess());
+                if (future.isSuccess()) {
+                    System.out.println("1111");
+                }
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }finally {
+                lock.unlockAsync();
+            }
+        }).start();
+
     }
 }

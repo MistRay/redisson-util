@@ -1,5 +1,6 @@
 package com.mistray.redisson;
 
+import org.redisson.api.RFuture;
 import org.redisson.api.RLock;
 
 import java.util.concurrent.TimeUnit;
@@ -78,4 +79,23 @@ public class RedissonLockUtil {
     public static boolean tryLock(String lockKey, TimeUnit unit, int waitTime, int leaseTime) {
         return redisLock.tryLock(lockKey, unit, waitTime, leaseTime);
     }
+
+
+    /**
+     *
+     * @param lockKey
+     * @param unit 时间单位
+     * @param waitTime 最多等待时间
+     * @param leaseTime 上锁后自动释放锁时间
+     * @return
+     */
+    public static boolean tryLockAsync(String lockKey, TimeUnit unit, int waitTime, int leaseTime){
+       return  redisLock.tryLockAsync(lockKey,unit,waitTime,leaseTime);
+    }
+
+
+    public static RLock getLock(String lockKey){
+        return redisLock.getLock(lockKey);
+    }
+
 }
