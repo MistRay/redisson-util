@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
-
 @Configuration
 @ConditionalOnClass(Config.class)
 @EnableConfigurationProperties(RedissonProperties.class)
@@ -45,10 +44,11 @@ public class RedissonAutoConfiguration {
 
     /**
      * 单机模式自动装配
+     *
      * @return
      */
     @Bean
-    @ConditionalOnProperty(name="redisson.address")
+    @ConditionalOnProperty(name = "redisson.address")
     RedissonClient redissonSingle() {
         Config config = new Config();
         config.setLockWatchdogTimeout(60000);
@@ -58,7 +58,7 @@ public class RedissonAutoConfiguration {
                 .setConnectionPoolSize(redissonProperties.getConnectionPoolSize())
                 .setConnectionMinimumIdleSize(redissonProperties.getConnectionMinimumIdleSize());
 
-        if(StringUtils.isNotBlank(redissonProperties.getPassword())) {
+        if (StringUtils.isNotBlank(redissonProperties.getPassword())) {
             serverConfig.setPassword(redissonProperties.getPassword());
         }
 
@@ -67,6 +67,7 @@ public class RedissonAutoConfiguration {
 
     /**
      * 装配locker类，并将实例注入到RedissLockUtil中
+     *
      * @return
      */
     @Bean

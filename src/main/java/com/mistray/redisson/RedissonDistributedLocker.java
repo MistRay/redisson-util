@@ -6,7 +6,7 @@ import org.redisson.api.RedissonClient;
 
 import java.util.concurrent.TimeUnit;
 
-public class RedissonDistributedLocker implements DistributedLocker{
+public class RedissonDistributedLocker implements DistributedLocker {
 
     private RedissonClient redissonClient;
 
@@ -25,7 +25,7 @@ public class RedissonDistributedLocker implements DistributedLocker{
     }
 
     @Override
-    public RLock lock(String lockKey, TimeUnit unit ,int timeout) {
+    public RLock lock(String lockKey, TimeUnit unit, int timeout) {
         RLock lock = redissonClient.getLock(lockKey);
         lock.lock(timeout, unit);
         return lock;
@@ -53,7 +53,7 @@ public class RedissonDistributedLocker implements DistributedLocker{
     }
 
     @Override
-    public boolean tryLockAsync(String lockKey, TimeUnit unit, int waitTime, int leaseTime){
+    public boolean tryLockAsync(String lockKey, TimeUnit unit, int waitTime, int leaseTime) {
         RLock lock = redissonClient.getLock(lockKey);
         return lock.tryLockAsync(waitTime, leaseTime, unit, Thread.currentThread().getId()).isSuccess();
     }

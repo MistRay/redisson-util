@@ -15,6 +15,7 @@ public class RedissonLockUtil {
 
     /**
      * 加锁
+     *
      * @param lockKey
      * @return
      */
@@ -24,6 +25,7 @@ public class RedissonLockUtil {
 
     /**
      * 释放锁
+     *
      * @param lockKey
      */
     public static void unlock(String lockKey) {
@@ -32,6 +34,7 @@ public class RedissonLockUtil {
 
     /**
      * 释放锁
+     *
      * @param lock
      */
     public static void unlock(RLock lock) {
@@ -40,6 +43,7 @@ public class RedissonLockUtil {
 
     /**
      * 带超时的锁
+     *
      * @param lockKey
      * @param timeout 超时时间   单位：秒
      */
@@ -49,18 +53,20 @@ public class RedissonLockUtil {
 
     /**
      * 带超时的锁
+     *
      * @param lockKey
-     * @param unit 时间单位
+     * @param unit    时间单位
      * @param timeout 超时时间
      */
-    public static RLock lock(String lockKey, TimeUnit unit , int timeout) {
+    public static RLock lock(String lockKey, TimeUnit unit, int timeout) {
         return redisLock.lock(lockKey, unit, timeout);
     }
 
     /**
      * 尝试获取锁
+     *
      * @param lockKey
-     * @param waitTime 最多等待时间
+     * @param waitTime  最多等待时间
      * @param leaseTime 上锁后自动释放锁时间
      * @return
      */
@@ -70,9 +76,10 @@ public class RedissonLockUtil {
 
     /**
      * 尝试获取锁
+     *
      * @param lockKey
-     * @param unit 时间单位
-     * @param waitTime 最多等待时间
+     * @param unit      时间单位
+     * @param waitTime  最多等待时间
      * @param leaseTime 上锁后自动释放锁时间
      * @return
      */
@@ -82,19 +89,26 @@ public class RedissonLockUtil {
 
 
     /**
+     * 尝试获取锁
      *
      * @param lockKey
-     * @param unit 时间单位
-     * @param waitTime 最多等待时间
+     * @param unit      时间单位
+     * @param waitTime  最多等待时间
      * @param leaseTime 上锁后自动释放锁时间
      * @return
      */
-    public static boolean tryLockAsync(String lockKey, TimeUnit unit, int waitTime, int leaseTime){
-       return  redisLock.tryLockAsync(lockKey,unit,waitTime,leaseTime);
+    public static boolean tryLockAsync(String lockKey, TimeUnit unit, int waitTime, int leaseTime) {
+        return redisLock.tryLockAsync(lockKey, unit, waitTime, leaseTime);
     }
 
 
-    public static RLock getLock(String lockKey){
+    /**
+     * 带看门狗自动续期的锁
+     *
+     * @param lockKey
+     * @return
+     */
+    public static RLock getLock(String lockKey) {
         return redisLock.getLock(lockKey);
     }
 
